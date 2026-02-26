@@ -1,0 +1,37 @@
+{
+  "total": 2,
+  "rows": [
+    {
+      "id": 1,
+      "clientId": "e5cd7e4891bf95d1d19206ce24a7b32e",
+      "clientKey": "pc",
+      "clientSecret": "pc123",
+      "grantTypeList": [
+        "password",
+        "social"
+      ],
+      "grantType": "password,social",
+      "deviceType": "pc",
+      "activeTimeout": 1800,
+      "timeout": 604800,
+      "status": "0"
+    },
+    {
+      "id": 2,
+      "clientId": "428a8310cd442757ae699df5d894f051",
+      "clientKey": "app",
+      "clientSecret": "app123",
+      "grantTypeList": [
+        "password",
+        "sms"
+      ],
+      "grantType": "password,sms",
+      "deviceType": "android",
+      "activeTimeout": 1800,
+      "timeout": 604800,
+      "status": "0"
+    }
+  ],
+  "code": 200,
+  "msg": "查询成功"
+}

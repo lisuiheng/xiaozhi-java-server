@@ -1,0 +1,360 @@
+1. 创建DTO类
+java
+package cn.org.aimp.vm.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+import java.util.Date;
+
+/**
+ * OTA响应DTO
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class OtaResponseDTO {
+    
+    @JsonProperty("mqtt")
+    private MqttConfig mqtt;
+    
+    @JsonProperty("server_time")
+    private ServerTime serverTime;
+    
+    @JsonProperty("firmware")
+    private FirmwareInfo firmware;
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class MqttConfig {
+        private String endpoint;
+        @JsonProperty("client_id")
+        private String clientId;
+        private String username;
+        private String password;
+        @JsonProperty("publish_topic")
+        private String publishTopic;
+        @JsonProperty("subscribe_topic")
+        private String subscribeTopic;
+    }
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class ServerTime {
+        private Long timestamp;
+        private String timezone;
+        @JsonProperty("timezone_offset")
+        private Integer timezoneOffset;
+    }
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    public static class FirmwareInfo {
+        private String version;
+        private String url;
+        @JsonProperty("ota_info_id")
+        private String otaInfoId;
+        @JsonProperty("ota_md5_checksum")
+        private String otaMd5Checksum;
+    }
+}
+
+/**
+ * OTA请求DTO
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OtaRequestDTO {
+    
+    @JsonProperty("mac_address")
+    private String macAddress;
+    
+    @JsonProperty("application")
+    private ApplicationInfo application;
+    
+    @JsonProperty("board")
+    private BoardInfo board;
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ApplicationInfo {
+        private String version;
+        @JsonProperty("compile_time")
+        private String compileTime;
+    }
+    
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class BoardInfo {
+        private String type;
+    }
+}
+
+/**
+ * OTA结果响应DTO
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class OtaResultResponseDTO {
+    private Boolean success;
+    private String message;
+    private Object data;
+}
+2. 优化Controller层
+java
+package cn.org.aimp.vm.controller;
+
+import cn.org.aimp.common.util.DateUtils;
+import cn.org.aimp.common.util.StringUtils;
+import cn.org.aimp.manager.constant.UpdateStatus;
+import cn.org.aimp.manager.dto.DeviceInfo;
+import cn.org.aimp.manager.dto.OTAInfo;
+import cn.org.aimp.manager.dto.OTAResult;
+import cn.org.aimp.manager.dto.OtaLog;
+import cn.org.aimp.manager.service.DeviceInfoService;
+import cn.org.aimp.manager.service.OTAInfoService;
+import cn.org.aimp.manager.service.OtaLogService;
+import cn.org.aimp.vm.dto.OtaRequestDTO;
+import cn.org.aimp.vm.dto.OtaResponseDTO;
+import cn.org.aimp.vm.dto.OtaResultResponseDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Slf4j
+@RestController
+@RequestMapping("/ota")
+@RequiredArgsConstructor
+public class OtaController {
+
+    private final DeviceInfoService deviceInfoService;
+    private final OtaLogService otaLogService;
+    private final OTAInfoService otaInfoService;
+
+    @PostMapping(value = {"", "/"})
+    public ResponseEntity<OtaResponseDTO> checkOtaUpdate(
+            HttpSession session,
+            @RequestBody OtaRequestDTO request) {
+        
+        log.info("OTA检查请求: macAddress={}, version={}", 
+                request.getMacAddress(), request.getApplication().getVersion());
+        
+        // 解析请求数据
+        String macAddress = request.getMacAddress();
+        String appVersion = request.getApplication().getVersion();
+        String compileTime = request.getApplication().getCompileTime();
+        String deviceModel = request.getBoard().getType();
+        
+        // 转换编译时间
+        Date programUpdateTime = null;
+        try {
+            programUpdateTime = DateUtils.parseDate(compileTime);
+        } catch (Exception e) {
+            log.error("解析编译时间失败: {}", compileTime, e);
+        }
+        
+        // 更新设备信息
+        deviceInfoService.updateDeviceInfo(macAddress, appVersion, programUpdateTime);
+        
+        // 查询设备信息
+        DeviceInfo deviceInfo = deviceInfoService.queryDeviceBySerialNumber(macAddress);
+        if (deviceInfo == null) {
+            log.warn("设备不存在: macAddress={}", macAddress);
+            return buildDefaultResponse(macAddress);
+        }
+        
+        // 构建响应
+        OtaResponseDTO response = buildOtaResponse(deviceInfo, deviceModel, appVersion, macAddress);
+        
+        // 保存日志
+        saveOtaLog(request, response, deviceInfo);
+        
+        return ResponseEntity.ok(response);
+    }
+    
+    @PostMapping("/result")
+    public ResponseEntity<OtaResultResponseDTO> handleUpdateResult(
+            @RequestBody OTAResult resultDTO) {
+        
+        log.info("处理OTA更新结果: {}", resultDTO);
+        
+        if (StringUtils.isBlank(resultDTO.getMacAddress())) {
+            return ResponseEntity.badRequest()
+                    .body(new OtaResultResponseDTO(false, "MAC地址不能为空", null));
+        }
+        
+        try {
+            // TODO: 实现OTA结果处理逻辑
+            return ResponseEntity.ok(new OtaResultResponseDTO(true, null, null));
+        } catch (Exception e) {
+            log.error("处理OTA结果失败: {}", resultDTO, e);
+            return ResponseEntity.internalServerError()
+                    .body(new OtaResultResponseDTO(false, "服务器处理失败", null));
+        }
+    }
+    
+    /**
+     * 构建OTA响应
+     */
+    private OtaResponseDTO buildOtaResponse(DeviceInfo deviceInfo, String deviceModel, 
+                                          String currentVersion, String macAddress) {
+        
+        OtaResponseDTO response = new OtaResponseDTO();
+        
+        // 1. 构建MQTT配置
+        response.setMqtt(buildMqttConfig(macAddress));
+        
+        // 2. 构建服务器时间
+        response.setServerTime(buildServerTime());
+        
+        // 3. 构建固件信息
+        response.setFirmware(buildFirmwareInfo(deviceInfo, deviceModel, currentVersion));
+        
+        return response;
+    }
+    
+    /**
+     * 构建MQTT配置
+     */
+    private OtaResponseDTO.MqttConfig buildMqttConfig(String macAddress) {
+        String clientId = "GID_test@@@" + macAddress.replace(".", "_");
+        
+        return new OtaResponseDTO.MqttConfig(
+                "api.ailinn.tech",
+                clientId,
+                "emqx",
+                "O1ibVee1Nw3Z",
+                "device-server",
+                "devices/" + clientId
+        );
+    }
+    
+    /**
+     * 构建服务器时间
+     */
+    private OtaResponseDTO.ServerTime buildServerTime() {
+        return new OtaResponseDTO.ServerTime(
+                new Date().getTime(),
+                "Asia/Shanghai",
+                480
+        );
+    }
+    
+    /**
+     * 构建固件信息
+     */
+    private OtaResponseDTO.FirmwareInfo buildFirmwareInfo(DeviceInfo deviceInfo, 
+                                                         String deviceModel, 
+                                                         String currentVersion) {
+        
+        String firmwareUrl = "";
+        String newVersion = currentVersion;
+        String otaInfoId = null;
+        String otaMd5Checksum = null;
+        
+        // 立即更新逻辑
+        if (UpdateStatus.IMMEDIATE_UPDATE.equals(deviceInfo.getIsUpdatable())) {
+            OTAInfo otaInfoVo = otaInfoService.queryLatestByDeviceModel(deviceModel, deviceInfo.getVersionType());
+            if (otaInfoVo != null && 
+                StringUtils.compareVersions(otaInfoVo.getVersion(), currentVersion) > 0) {
+                otaInfoId = otaInfoVo.getId();
+                newVersion = otaInfoVo.getVersion();
+                otaMd5Checksum = otaInfoVo.getMd5Checksum();
+            }
+        }
+        
+        log.info("固件检查结果: currentVersion={}, newVersion={}, otaInfoId={}", 
+                currentVersion, newVersion, otaInfoId);
+        
+        return new OtaResponseDTO.FirmwareInfo(
+                newVersion,
+                firmwareUrl,
+                otaInfoId,
+                otaMd5Checksum
+        );
+    }
+    
+    /**
+     * 构建默认响应（当设备不存在时）
+     */
+    private ResponseEntity<OtaResponseDTO> buildDefaultResponse(String macAddress) {
+        OtaResponseDTO response = new OtaResponseDTO();
+        response.setMqtt(buildMqttConfig(macAddress));
+        response.setServerTime(buildServerTime());
+        response.setFirmware(new OtaResponseDTO.FirmwareInfo(
+                "1.0.0", "", null, null
+        ));
+        return ResponseEntity.ok(response);
+    }
+    
+    /**
+     * 保存OTA日志
+     */
+    private void saveOtaLog(OtaRequestDTO request, OtaResponseDTO response, DeviceInfo deviceInfo) {
+        try {
+            OtaLog otaLog = new OtaLog();
+            otaLog.setSerialNumber(request.getMacAddress());
+            otaLog.setApplicationVersion(request.getApplication().getVersion());
+            otaLog.setCompileTime(DateUtils.parseToLocalDateTime(request.getApplication().getCompileTime()));
+            otaLog.setLogTime(LocalDateTime.now());
+            otaLog.setOtaInfo(convertToJson(request)); // 需要实现这个方法
+            otaLog.setOtaResp(convertToJson(response)); // 需要实现这个方法
+            otaLog.setTenantId(deviceInfo.getTenantId());
+            otaLog.setCreateBy(deviceInfo.getCreateBy());
+            otaLog.setCreateTime(deviceInfo.getCreateTime());
+            
+            otaLogService.save(otaLog);
+        } catch (Exception e) {
+            log.error("保存OTA日志失败", e);
+        }
+    }
+    
+    /**
+     * 对象转JSON字符串（可以注入ObjectMapper）
+     */
+    private String convertToJson(Object object) throws Exception {
+        // 使用ObjectMapper将对象转换为JSON字符串
+        // 这里简写，实际应用中需要注入ObjectMapper
+        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+        return mapper.writeValueAsString(object);
+    }
+    
+    /**
+     * 递增版本号（备用）
+     */
+    private String incrementVersion(String version) {
+        String[] parts = version.split("\\.");
+        if (parts.length == 3) {
+            try {
+                int patch = Integer.parseInt(parts[2]);
+                patch++;
+                return parts[0] + "." + parts[1] + "." + patch;
+            } catch (NumberFormatException e) {
+                log.error("递增版本号失败: {}", version, e);
+            }
+        }
+        return version;
+    }
+}

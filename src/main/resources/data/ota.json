@@ -1,0 +1,83 @@
+{
+  "version": 2,
+  "language": "zh-CN",
+  "flash_size": 16777216,
+  "minimum_free_heap_size": "8397736",
+  "mac_address": "90:70:69:12:6c:e0",
+  "uuid": "43043151-039c-4585-84bc-81869bffd9dc",
+  "chip_model_name": "esp32s3",
+  "chip_info": {
+    "model": 9,
+    "cores": 2,
+    "revision": 2,
+    "features": 18
+  },
+  "application": {
+    "name": "xiaozhi",
+    "version": "2.1.0",
+    "compile_time": "Jan 31 2026T15:51:50Z",
+    "idf_version": "v5.5.2",
+    "elf_sha256": "e91a4f64322bf90608c66b8c6e74eddfc9ffbdcb0af449255a64e03e51dbdc76"
+  },
+  "partition_table": [
+    {
+      "label": "nvs",
+      "type": 1,
+      "subtype": 2,
+      "address": 36864,
+      "size": 16384
+    },
+    {
+      "label": "otadata",
+      "type": 1,
+      "subtype": 0,
+      "address": 53248,
+      "size": 8192
+    },
+    {
+      "label": "phy_init",
+      "type": 1,
+      "subtype": 1,
+      "address": 61440,
+      "size": 4096
+    },
+    {
+      "label": "ota_0",
+      "type": 0,
+      "subtype": 16,
+      "address": 131072,
+      "size": 4128768
+    },
+    {
+      "label": "ota_1",
+      "type": 0,
+      "subtype": 17,
+      "address": 4259840,
+      "size": 4128768
+    },
+    {
+      "label": "assets",
+      "type": 1,
+      "subtype": 130,
+      "address": 8388608,
+      "size": 8388608
+    }
+  ],
+  "ota": {
+    "label": "ota_0"
+  },
+  "display": {
+    "monochrome": true,
+    "width": 128,
+    "height": 64
+  },
+  "board": {
+    "type": "dog",
+    "name": "dog",
+    "ssid": "HUAWEI-B912GV",
+    "rssi": -53,
+    "channel": 1,
+    "ip": "192.168.3.114",
+    "mac": "90:70:69:12:6c:e0"
+  }
+}

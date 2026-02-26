@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- 定义日志文件输出目录（确保目录存在且有写入权限） -->
+    <property name="LOG_DIR" value="/app/astra-server/logs" />
+    <property name="LOG_FILE" value="astra-server.log" />
+
+    <!-- 基于文件大小的滚动日志 -->
+    <appender name="ROLLING-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${LOG_FILE}</file> <!-- 当前活动日志文件 -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level [%X{userId}|%X{sessionId}|%X{callId}|%X{requestId}] %logger{36} - %msg%n</pattern>
+        </encoder>
+
+        <!-- 按大小滚动的策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 归档日志文件名模式（保留日期用于历史记录） -->
+            <fileNamePattern>${LOG_DIR}/nk-app.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!-- 单个文件最大20MB -->
+            <maxFileSize>20MB</maxFileSize>
+            <!-- 最多保留30个归档文件（约600MB总空间） -->
+            <maxHistory>30</maxHistory>
+            <!-- 总日志大小限制（可选） -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 控制台输出（可选） -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %highlight([%thread]) %highlight(%-5level) [%X{userId}|%X{sessionId}|%X{callId}|%X{requestId}] %cyan(%logger{36}) - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+
+    <!-- 设置日志级别 -->
+    <root level="INFO">
+<!--        <appender-ref ref="ROLLING-FILE" />-->
+         <appender-ref ref="CONSOLE" />
+    </root>
+
+<!--    <logger name="com.github.lisuiheng.astra.server.config" level="DEBUG" additivity="false">-->
+<!--&lt;!&ndash;        <appender-ref ref="ROLLING-FILE" />&ndash;&gt;-->
+<!--         <appender-ref ref="CONSOLE" />-->
+<!--    </logger>-->
+    <logger name="org.springframework.ai.chat.client.advisor" level="DEBUG" additivity="false">
+<!--        <appender-ref ref="ROLLING-FILE" />-->
+         <appender-ref ref="CONSOLE" />
+    </logger>
+</configuration>

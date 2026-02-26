@@ -1,0 +1,11 @@
+server:
+  port: 8001
+  shutdown: graceful
+  graceful:
+    shutdown-timeout: 30s
+
+spring:
+  profiles:
+    active: local
+  lifecycle:
+    timeout-per-shutdown-phase: 30s

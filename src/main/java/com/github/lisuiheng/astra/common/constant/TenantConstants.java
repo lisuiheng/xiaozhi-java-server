@@ -1,0 +1,39 @@
+package com.github.lisuiheng.astra.common.constant;
+
+/**
+ * 租户常量信息
+ *
+ * @author Qoder
+ */
+public interface TenantConstants {
+
+    /**
+     * 超级管理员ID
+     */
+    Long SUPER_ADMIN_ID = 1L;
+
+    /**
+     * 超级管理员角色 roleKey
+     */
+    String SUPER_ADMIN_ROLE_KEY = "superadmin";
+
+    /**
+     * 租户管理员角色 roleKey
+     */
+    String TENANT_ADMIN_ROLE_KEY = "admin";
+
+    /**
+     * 租户管理员角色名称
+     */
+    String TENANT_ADMIN_ROLE_NAME = "管理员";
+
+    /**
+     * 默认租户ID
+     */
+    String DEFAULT_TENANT_ID = "000000";
+
+    /**
+     * 租户启用标识
+     */
+    String ENABLE = "0";
+}

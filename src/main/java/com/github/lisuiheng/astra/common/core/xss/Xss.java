@@ -1,0 +1,25 @@
+package com.github.lisuiheng.astra.common.core.xss;
+
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * 自定义xss校验注解
+ *
+ * @author ruoyi
+ */
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.METHOD, ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER })
+@Constraint(validatedBy = XssValidator.class)
+public @interface Xss
+{
+    String message() default "不允许任何形式的脚本和表达式";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+}

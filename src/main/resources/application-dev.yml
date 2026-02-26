@@ -1,0 +1,132 @@
+tenant:
+  enable: true
+
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/astra}
+    username: ${DB_USERNAME:astra}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      timeout: 10s
+      lettuce:
+        pool:
+          min-idle: 1
+          max-idle: 8
+          max-active: 8
+          max-wait: -1ms
+      database: 10
+  ai:
+    dashscope:
+      api-key: ${DASHSCOPE_API_KEY:}
+      chat:
+        enabled: true
+      embedding:
+        options:
+          model: text-embedding-v4
+    openai:
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      api-key: ${OPENAI_API_KEY:}
+      chat:
+        options:
+          model: qwen-plus
+        enabled: true
+
+    vectorstore:
+#      type: milvus
+#      milvus:
+#        enabled: true
+#        # 注意：host 和 port 必须放在 client 下！
+#        client:
+#          host: 127.0.0.1
+#          port: 19530
+#          # 可选：如果你没开认证，显式清空用户名密码（避免默认值干扰）
+#        initialize-schema: true
+#        collection-name: test_rag_docs   # 显式指定名称（可选，默认就是 vector_store）
+#        index-type: IVF_FLAT            # 或 HNSW
+#        metric-type: COSINE             # DashScope 推荐余弦相似度
+#        database-name: default
+#        embedding-dimension: 1024
+      type: qdrant  # ← 改这里！
+      qdrant:
+        host: 127.0.0.1
+        port: 6334                # Qdrant REST 端口（Spring AI 使用 REST）
+        collection-name: test_rag_docs
+        initialize-schema: true   # 自动创建集合
+#  autoconfigure:
+#    exclude:
+#      - org.springframework.ai.vectorstore.milvus.autoconfigure.MilvusVectorStoreAutoConfiguration
+    chat:
+      memory:
+        repository:
+          redis:
+            key-prefix: "astra:chat:"
+            time-to-live: "24h"  # 支持: 30s, 5m, 2h, 7d
+  app:
+    jwt:
+      secret: ${JWT_SECRET:astra-secret-key-2024-change-this-in-production}
+      expiration: 86400000
+    audio:
+      max-file-size: 10MB
+      supported-formats: wav,mp3,ogg
+    memory:
+      vector-dimension: 1024
+      similarity-threshold: 0.7
+      max-memory-results: 5
+
+bytedance:
+  tts:
+#    app-id: 3349153676
+#    access-token: E9Kcxa43jR6KbW-bCLnLg_kaFKD8C_Lf
+    app-id: 8500930862
+    access-token: pO8keqQzua-AMIaQGFcIjB0K3jcdJKlp
+    default-resource-id: volc.service_type.10029
+    endpoint: wss://openspeech.bytedance.com/api/v3/tts/bidirection
+    default-speaker: zh_female_wanwanxiaohe_moon_bigtts
+    default-format: pcm
+    default-sample-rate: 24000
+
+mybatis-plus:
+  # 打印SQL语句
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-handlers-package: com.github.lisuiheng.astra.common.typehandler
+
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # jwt秘钥
+  jwt-secret-key: ${SA_TOKEN_SECRET:default-sa-token-secret}
+  # 允许动态设置 token 有效期
+  dynamic-active-timeout: true
+  # 允许从 请求参数 读取 token
+  is-read-body: true
+  # 允许从 header 读取 token
+  is-read-header: true
+  # 关闭 cookie 鉴权 从根源杜绝 csrf 漏洞风险
+  is-read-cookie: false
+  # token前缀
+  token-prefix: "Bearer"
+
+# api接口加密
+api-decrypt:
+  # 是否开启全局接口加密
+  enabled: false
+  # AES 加密头标识
+  header-flag: encrypt-key
+  # 响应加密公钥 非对称算法的公钥 如：SM2，RSA 使用者请自行更换
+  # 对应前端解密私钥
+  public-key: ${API_DECRYPT_PUBLIC_KEY:MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAJnNwrj4hi/y3CCJu868ghCG5dUj8wZK++RNlTLcXoMmdZWEQ/u02RgD5LyLAXGjLOjbMtC+/J9qofpSGTKSx/MCAwEAAQ==}
+  # 请求解密私钥 非对称算法的公私钥 如：SM2，RSA 使用者请自行更换
+  # 对应前端加密公钥
+  private-key: ${API_DECRYPT_PRIVATE_KEY:MIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEAqhHyZfSsYourNxaY7Nt+PrgrxkiA50efORdI5U5lsW79MmFnusUA355oaSXcLhu5xxB38SMSyP2KvuKNPuH3owIDAQABAkAfoiLyL+Z4lf4Myxk6xUDgLaWGximj20CUf+5BKKnlrK+Ed8gAkM0HqoTt2UZwA5E2MzS4EI2gjfQhz5X28uqxAiEA3wNFxfrCZlSZHb0gn2zDpWowcSxQAgiCstxGUoOqlW8CIQDDOerGKH5OmCJ4Z21v+F25WaHYPxCFMvwxpcw99EcvDQIgIdhDTIqD2jfYjPTY8Jj3EDGPbH2HHuffvflECt3Ek60CIQCFRlCkHpi7hthhYhovyloRYsM+IS9h/0BzlEAuO0ktMQIgSPT3aFAgJYwKpqRYKlLDVcflZFCKY7u3UP8iWi1Qw0Y=}

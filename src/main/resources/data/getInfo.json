@@ -1,0 +1,49 @@
+{
+    "code": 200,
+    "msg": "操作成功",
+    "data": {
+        "user": {
+            "userId": 1,
+            "tenantId": "000000",
+            "deptId": 103,
+            "userName": "admin",
+            "nickName": "疯狂的狮子Li",
+            "userType": "sys_user",
+            "email": "crazyLionLi@163.com",
+            "phonenumber": "15888888888",
+            "sex": "1",
+            "avatar": null,
+            "status": "0",
+            "loginIp": "127.0.0.1",
+            "loginDate": "2026-01-13 11:15:20",
+            "remark": "管理员",
+            "createTime": "2025-11-25 12:11:21",
+            "deptName": "研发部门",
+            "roles": [
+                {
+                    "roleId": 1,
+                    "roleName": "超级管理员",
+                    "roleKey": "superadmin",
+                    "roleSort": 1,
+                    "dataScope": "1",
+                    "menuCheckStrictly": null,
+                    "deptCheckStrictly": null,
+                    "status": "0",
+                    "remark": null,
+                    "createTime": null,
+                    "flag": false,
+                    "superAdmin": true
+                }
+            ],
+            "roleIds": null,
+            "postIds": null,
+            "roleId": null
+        },
+        "permissions": [
+            "*:*:*"
+        ],
+        "roles": [
+            "superadmin"
+        ]
+    }
+}

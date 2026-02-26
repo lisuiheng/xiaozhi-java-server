@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.lisuiheng.astra.sys.mapper.SysDeptMapper">
+
+    <resultMap type="com.github.lisuiheng.astra.sys.domain.SysDept" id="SysDeptResult">
+        <id     property="deptId"       column="dept_id"      />
+        <result property="parentId"     column="parent_id"    />
+        <result property="deptName"     column="dept_name"    />
+        <result property="deptCategory" column="dept_category"/>
+        <result property="orderNum"     column="order_num"    />
+        <result property="leader"       column="leader"       />
+        <result property="phone"        column="phone"        />
+        <result property="email"        column="email"        />
+        <result property="status"       column="status"       />
+        <result property="delFlag"      column="del_flag"     />
+        <result property="createBy"     column="create_by"    />
+        <result property="createTime"   column="create_time"  />
+        <result property="updateBy"     column="update_by"    />
+        <result property="updateTime"   column="update_time"  />
+        <result property="tenantId"     column="tenant_id"    />
+        <result property="ancestors"    column="ancestors"    />
+    </resultMap>
+
+    <!-- 查询部门信息 -->
+    <select id="selectDeptById" resultMap="SysDeptResult">
+        SELECT * FROM sys_dept WHERE dept_id = #{deptId} AND del_flag = '0'
+    </select>
+
+    <!-- 根据ID查询所有子部门数（正常状态） -->
+    <select id="selectNormalChildrenDeptById" resultType="long">
+        SELECT COUNT(*) FROM sys_dept WHERE parent_id = #{deptId} AND status = '0' AND del_flag = '0'
+    </select>
+
+    <!-- 检查部门是否存在用户 -->
+    <select id="checkDeptExistUser" resultType="boolean">
+        SELECT CASE WHEN COUNT(*) > 0 THEN true ELSE false END
+        FROM sys_user
+        WHERE dept_id = #{deptId} AND del_flag = '0'
+    </select>
+
+</mapper>

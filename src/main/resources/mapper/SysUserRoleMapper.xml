@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.github.lisuiheng.astra.sys.mapper.SysUserRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SysUserRoleResultMap" type="com.github.lisuiheng.astra.sys.domain.entity.SysUserRole">
+        <result property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+
+    <!-- 批量新增用户角色信息 -->
+    <insert id="batchUserRole">
+        INSERT INTO sys_user_role(user_id, role_id) VALUES
+        <foreach collection="userRoleList" item="item" separator=",">
+            (#{item.userId}, #{item.roleId})
+        </foreach>
+    </insert>
+
+    <!-- 通过用户ID删除用户和角色关联 -->
+    <delete id="deleteUserRoleByUserId" parameterType="java.lang.Long">
+        DELETE FROM sys_user_role WHERE user_id = #{userId}
+    </delete>
+
+    <!-- 批量删除用户和角色关联 -->
+    <delete id="deleteUserRole" parameterType="java.util.List">
+        DELETE FROM sys_user_role WHERE user_id IN
+        <foreach collection="ids" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <!-- 通过角色ID查询角色使用数量 -->
+    <select id="countUserRoleByRoleId" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM sys_user_role WHERE role_id = #{roleId}
+    </select>
+
+</mapper>

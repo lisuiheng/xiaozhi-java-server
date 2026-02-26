@@ -1,0 +1,34 @@
+{
+  "code": 200,
+  "msg": "操作成功",
+  "data": {
+    "user": {
+      "userId": 1,
+      "deptId": 103,
+      "userName": "admin",
+      "nickName": "疯狂的狮子Li",
+      "email": "crazyLionLi@163.com",
+      "phonenumber": "15888888888",
+      "sex": "1",
+      "avatar": null,
+      "password": "$2a$10$7JB720yubVSZvUI0rEqK/.VqGOZTH.ulu33dHOiBE8ByOhJIrdAu2",
+      "status": "0",
+      "delFlag": "0",
+      "userType": "sys_user",
+      "tenantId": "000000",
+      "deptName": null,
+      "roleName": null,
+      "salt": null
+    },
+    "permissions": [
+      "system:user:view",
+      "system:user:delete",
+      "system:user:edit",
+      "system:user:add"
+    ],
+    "roles": [
+      "admin"
+    ]
+  },
+  "success": true
+}

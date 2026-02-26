@@ -1,0 +1,73 @@
+# Maven
+/target/
+*.mp3
+*.log
+*.gz
+local/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*.swn
+*.pyc
+.vscode/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment specific configurations
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+config/
+config.properties
+application-local.yml
+application-prod.yml
+application-private.yml
+
+# Database
+*.db
+*.db-journal
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+.tmp
+.temp
+
+# Secrets and credentials
+**/local.properties
+**/credentials.json
+**/secrets.json
+**/private.key
+**/private.pem
+**/id_rsa
+**/id_dsa
+**/config/keys/*
+**/api_keys.properties
+**/jwt_secret.*
+**/application-secret.*
+
+# Build outputs
+dist/
+out/
+build/
+
+# Node
+node_modules/

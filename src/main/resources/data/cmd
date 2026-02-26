@@ -1,0 +1,9 @@
+curl -v "http://localhost:8001/api/v1/agents?pageNum=1&pageSize=10"
+
+astra-server-api
+curl -v "http://localhost:8003/astra-server-api/agents?pageNum=1&pageSize=10"
+
+https://api.tenclass.net/xiaozhi/ota/
+
+http://192.168.3.61:8001/ota/
+http://192.168.3.15:8001/ota/

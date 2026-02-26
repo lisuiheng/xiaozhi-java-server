@@ -1,0 +1,135 @@
+create table sys_role_menu
+(
+    role_id bigint not null,
+    menu_id bigint not null,
+    constraint sys_role_menu_pk
+        primary key (role_id, menu_id)
+);
+
+comment on table sys_role_menu is '角色和菜单关联表';
+
+comment on column sys_role_menu.role_id is '角色ID';
+
+comment on column sys_role_menu.menu_id is '菜单ID';
+
+alter table sys_role_menu
+    owner to astra;
+
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 5);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1500);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1501);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1502);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1503);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1504);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1505);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1506);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1507);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1508);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1509);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1510);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (4, 1511);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11616);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11622);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 5);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 131);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 100);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1001);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1002);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1003);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1004);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1005);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1006);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1007);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 101);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1008);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1009);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1010);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1011);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1012);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 130);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 102);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1013);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1014);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1015);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1016);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 103);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1017);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1018);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1019);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1020);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 104);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1021);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1022);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1023);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1024);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1025);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 105);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1026);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1027);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1028);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1029);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1030);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 132);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 106);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1031);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1032);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1033);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1034);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1035);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 107);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1036);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1037);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1038);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1039);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 108);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 500);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1040);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1041);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1042);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 501);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1043);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1044);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1045);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1050);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 118);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1600);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1601);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1602);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1603);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1620);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1622);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1623);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1621);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 133);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 123);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1061);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1062);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1063);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1064);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1065);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11623);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11701);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11618);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11629);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11619);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11632);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11633);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1506);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1507);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1508);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1509);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1510);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1511);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1500);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1501);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1502);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1503);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1504);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 1505);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11638);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11639);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11640);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11641);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11642);
+INSERT INTO public.sys_role_menu (role_id, menu_id) VALUES (3, 11643);
