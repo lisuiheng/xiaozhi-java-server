@@ -11,6 +11,7 @@ Astra Server 是一个基于 Spring Boot 构建的现代化 AI 服务后端系�
 - 🗂️ 知识库：支持文档上传和语义检索
 - 🌐 多租户：支持多租户架构
 - 📊 WebSocket：实时通信支持
+- 🔁 双向流式交互：支持实时语音输入和流式音频输出
 
 ## 技术栈
 
@@ -32,69 +33,6 @@ Astra Server 是一个基于 Spring Boot 构建的现代化 AI 服务后端系�
 - Redis 6+
 - Qdrant 向量数据库
 
-## 安装部署
-
-### 1. 克隆项目
-
-```bash
-git clone <your-repo-url>
-cd astra-server
-```
-
-### 2. 创建配置文件
-
-复制示例配置文件并根据实际情况修改：
-
-```bash
-cp application-example.yml application-local.yml
-```
-
-编辑 `application-local.yml` 文件，填入你的实际配置信息。
-
-或者使用环境变量进行配置（推荐）：
-
-```bash
-# 数据库配置
-export DB_URL=jdbc:postgresql://localhost:5432/astra
-export DB_USERNAME=astra
-export DB_PASSWORD=your_password
-
-# Redis 配置
-export REDIS_HOST=localhost
-export REDIS_PORT=6379
-export REDIS_PASSWORD=your_redis_password
-
-# AI 服务配置
-export DASHSCOPE_API_KEY=your_dashscope_api_key
-export OPENAI_API_KEY=your_openai_api_key
-
-# 字节跳动 TTS 服务配置
-export BYTEDANCE_APP_ID=your_app_id
-export BYTEDANCE_ACCESS_TOKEN=your_access_token
-
-# JWT 密钥（生产环境请务必更改）
-export JWT_SECRET=your_secure_jwt_secret
-export SA_TOKEN_SECRET=your_secure_sa_token_secret
-```
-
-### 3. 构建项目
-
-```bash
-mvn clean install -DskipTests
-```
-
-### 4. 运行应用
-
-```bash
-# 方式一：使用 Maven
-mvn spring-boot:run
-
-# 方式二：打包后运行
-java -jar target/astra-server.jar
-
-# 方式三：指定配置文件
-java -jar target/astra-server.jar --spring.profiles.active=local
-```
 
 ## 配置说明
 
@@ -118,24 +56,14 @@ java -jar target/astra-server.jar --spring.profiles.active=local
 - 默认使用 Qdrant，需先启动 Qdrant 服务
 - 也可以切换为 Milvus 等其他向量数据库
 
-## API 文档
+### 双向流式交互配置
 
-项目集成了 Swagger，启动后可通过以下地址访问 API 文档：
-- http://localhost:8001/swagger-ui.html
+- 支持实时语音输入流处理
+- 支持流式音频输出（TTS）
+- 集成字节跳动火山引擎等主流 TTS 服务
+- 支持多种音频格式的实时编解码
+- 低延迟的流式处理架构，优化用户体验
 
-## 安全注意事项
-
-1. **生产环境必需更改默认密钥**：
-   - JWT 密钥
-   - Sa-Token 密钥
-   - 加密公私钥对
-
-2. **环境变量优先**：
-   - 敏感信息应通过环境变量配置
-   - 避免将密码等信息写入配置文件
-
-3. **HTTPS 部署**：
-   - 生产环境建议启用 HTTPS
 
 ## 开发贡献
 
