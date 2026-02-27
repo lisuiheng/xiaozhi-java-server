@@ -1,6 +1,7 @@
 # Astra Server
 
-Astra Server 是一个基于 Spring Boot 构建的现代化 AI 服务后端系统，集成了多种 AI 服务（如通义千问）、向量数据库、语音处理等功能。
+基于 <a href="https://github.com/78/xiaozhi-esp32">Xiaozhi ESP32</a> 项目开发的 Java版本服务端<br/>
+前端项目：<a href="https://github.com/lisuiheng/xiaozhi-java-web">GitHub</a> 或 <a href="https://gitee.com/lisuiheng1/xiaozhi-java-web">Gitee</a><br/>
 
 ## 功能特性
 
